@@ -10,14 +10,16 @@ class Card(db.Model):
     date = db.Column(db.Date) # created date
     status = db.Column(db.String)
     priority = db.Column(db.String)
-
+    # provided by database level, table name
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     # model level 'user' match
     user = db.relationship('User', back_populates='cards')
 
+# schema used to fetch data from controller
 class CardSchema(ma.Schema):
-    
+
+    # marshmallow level
     user = fields.Nested('UserSchema', only=["id", "name", "email"])
 
     class Mata:

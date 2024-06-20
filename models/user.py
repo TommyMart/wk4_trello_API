@@ -17,7 +17,7 @@ class User(db.Model):
     cards = db.relationship('Card', back_populates='user')
 
 class UserSchema(ma.Schema):
-
+    # marshmallow to de/serialize 
     cards = fields.List(fields.Nested('CardSchema', exclude=["user"]))
 
     class Meta:
