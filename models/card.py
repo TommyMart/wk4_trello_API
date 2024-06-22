@@ -18,34 +18,43 @@ class Card(db.Model):
     # fetch info of user to display # back_populates / links to 'user' model
     # model level 'user' match / get info of user from different table
     user = db.relationship('User', back_populates='cards')
-    comments = db.relationship("Comment", back_populates="cards")
+    comments = db.relationship("Comment", back_populates="card", cascade="all, delete")
 # schema used to fetch data from controller
+# class CardSchema(ma.Schema):
+
+#     user = fields.Nested('UserSchema', only=["id", "name", "email"])
+#     # delete all comments when card deleted = cascade ... 
+#     comments = db.relationship("Comment", back_populates="card", cascade="all, delete")
+
+#     # foreign key id 
+#     # {
+#     #     id: 1,
+#     #     title: "Card 1",
+#     #     description: "Card 1 desc",
+#     #     date: "..",
+#     #     status: "..",
+#     #     priority: "..",
+#     #     user_id: 1,
+#     #     user: {
+#     #       id: 1,
+#     #       name: "User 1",
+#     #       email: "user1@email.com",
+#     #   }
+#     # }
+
+#     class Meta:
+#         fields = ("id", "title", "description", "date", "status", "priority", "user", "comments")
+#         ordered = True
+
+
+
 class CardSchema(ma.Schema):
 
     user = fields.Nested('UserSchema', only=["id", "name", "email"])
-    # delete all comments when card deleted = cascade ... 
-    comments = db.relationship("Comment", back_populates="card", cascade="all, delete")
-
-    # foreign key id 
-    # {
-    #     id: 1,
-    #     title: "Card 1",
-    #     description: "Card 1 desc",
-    #     date: "..",
-    #     status: "..",
-    #     priority: "..",
-    #     user_id: 1,
-    #     user: {
-    #       id: 1,
-    #       name: "User 1",
-    #       email: "user1@email.com",
-    #   }
-    # }
+    comments = fields.List(fields.Nested("CommentSchema", exclude=["card"]))
 
     class Meta:
-        fields = ("id", "title", "description", "date", "status", "priority", "user", "comments")
-        ordered = True
-        
+        fields = ( "id", "title", "description", "date", "status", "priority", "user", "comments" )
+
 card_schema = CardSchema()
 cards_schema  = CardSchema(many=True)
-
