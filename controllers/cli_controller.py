@@ -1,10 +1,13 @@
+# internal
+from datetime import date
+# extental
 from flask import Blueprint
-
+# imports from files
 from init import db, bcrypt
-
-db_commands = Blueprint("db", __name__)
+from models.card import Card
 from models.user import User
 
+db_commands = Blueprint("db", __name__)
 
 @db_commands.cli.command("create")
 def create_tables():
@@ -34,6 +37,37 @@ def seed_tables():
 
     db.session.add_all(users)
 
+    # db.session.commit() / 
+
+    cards = [
+        Card(
+            title="Card 1",
+            description="Card 1 desc",
+            date=date.today(),
+            status="To do",
+            priority="High",
+            user=users[0]
+        ),
+        Card(
+            title="Card 2",
+            description="Card 2 desc",
+            date=date.today(),
+            status="Ongoing",
+            priority="Low",
+            user=users[0]
+        ),
+        Card(
+            title="Card 3",
+            description="Card 3 desc",
+            date=date.today(),
+            status="Done",
+            priority="Medium",
+            user=users[1]
+            # user_id=users[0].id
+        ),
+    ]
+    
+    db.session.add_all(cards)
     db.session.commit()
 
     print("Tables seeded")
