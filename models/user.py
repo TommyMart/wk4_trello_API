@@ -13,10 +13,12 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
 
+    
     # connects to user field
     cards = db.relationship('Card', back_populates='user')
 
 class UserSchema(ma.Schema):
+    # numerous cards to single user, list of cards / serialize / deserialize 
     # marshmallow to de/serialize 
     cards = fields.List(fields.Nested('CardSchema', exclude=["user"]))
 
