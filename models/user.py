@@ -15,16 +15,17 @@ class User(db.Model):
 
     
     # connects to user field
-    cards = db.relationship('Card', back_populates='user')
+    cards = db.relationship("Card", back_populates="user")
+    comments = db.relationship("Comment", back_populates="user")
 
 class UserSchema(ma.Schema):
     # numerous cards to single user, list of cards / serialize / deserialize 
     # marshmallow to de/serialize 
     cards = fields.List(fields.Nested('CardSchema', exclude=["user"]))
-
+    comments = fields.List(fields.Nested('CommentSchema', exclude=["user"]))
     class Meta:
         # convert database objects to python and vice versa
-        fields = ("id", "name", "email", "password", "is_admin", "cards")
+        fields = ("id", "name", "email", "password", "is_admin", "cards", "comments")
 
 # handle singe user object
 user_schema = UserSchema(exclude=["password"])
