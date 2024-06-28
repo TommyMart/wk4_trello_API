@@ -35,7 +35,7 @@ def get_one_card(card_id):
     if card: # if card exists
 
         return card_schema.dump(card)
-    else: return {"error": f"Card with id {card_id} not found"}
+    else: return {"error": f"Card with id {card_id} not found"}, 404
 
 # /cards - POST - create a new card
 # @cards_bp.route("/", methods=["POST"])

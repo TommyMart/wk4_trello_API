@@ -17,7 +17,7 @@ from models.comment import Comment, comment_schema, comments_schema
 from models.card import Card
 
 # /cards/<int:card_id>/comments
-comments_bp = Blueprint("comments", __name__, url_prefix="/cards")
+comments_bp = Blueprint("comments", __name__, url_prefix="/comments")
 
 # we already get the comments while fetching cards, so, no need for
 # get comments route here 
